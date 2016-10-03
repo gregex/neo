@@ -18,10 +18,17 @@
 <div class="container">
 <form action="/animation" method="post">
 	<p><h5>Choose an animation</h5></p>
-        <p><input type="submit" class="btn btn-warning btn-block" name="KSET" value="KSET"></p>
-	<p><input type="submit" class="btn btn-warning btn-block" name="Matrix" value="Matrix"></p>
-	<p><input type="submit" class="btn btn-warning btn-block" name="Penis" value="Penis"></p>	
+        <p><input type="submit" class="btn btn-warning btn-block" name="button" value="KSET"></p>
+	<p><input type="submit" class="btn btn-warning btn-block" name="button" value="Matrix"></p>
+	<p><input type="submit" class="btn btn-warning btn-block" name="button" value="Penis"></p>	
       </form>
+
+<form action="/text" method="post">
+        <p><h5>Display text on the screen</h5></p>
+        <p><input type="text" class="form-control" id="text" name="text"></p>
+        <p><button type="submit" class="btn btn-warning btn-block">Submit</button></p>
+      </form>
+
 
 <form action="/suggestion" method="post">
 	<p><h5>Any suggestion for future animations?</h5></p>
