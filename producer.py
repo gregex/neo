@@ -5,9 +5,7 @@ from os import system
 import pika
 from werkzeug.contrib.fixers import ProxyFix
 
-#setTime='sudo date -s "$(wget -qSO- --max-redirect=0 google.com 2>&1 | grep Date: | cut -d' ' -f5-8)Z"'
 app = Flask(__name__)
-#system(setTime)
 app.wsgi_app = ProxyFix(app.wsgi_app)
 
 @app.route('/')
@@ -21,6 +19,10 @@ def suggestion():
 	file.write(suggestion+"\n")
 	file.close()
 	return redirect('/')
+
+@app.route('/gasimasinu')
+def turnoff():
+	system('sudo poweroff')
 
 @app.route('/text',methods=['POST'])
 def text():

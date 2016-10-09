@@ -4,12 +4,11 @@ from rgbmatrix import graphics
 from random import randint
 import time
 import pika
+from os import system
 
 class consumer(SampleBase):
 	def __init__(self, *args, **kwargs):
-		super(consumer, self).__init__(*args, **kwargs)
-    #dodati namjestanje sata pri paljenju  
-	
+		super(consumer, self).__init__(*args, **kwargs)  	
 	
 	def Run(self):
 		offscreenCanvas = self.matrix.CreateFrameCanvas()
@@ -59,5 +58,7 @@ class consumer(SampleBase):
 
 # Main function
 if __name__ == "__main__":
+#	setTime='sudo date -s "$(wget -qSO- --max-redirect=0 google.com 2>&1 | grep Date: | cut -d' ' -f5-8)Z"'
+#	system(setTime)
 	display = consumer()
 	display.process().Run()
