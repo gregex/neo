@@ -2,12 +2,12 @@ import argparse, time, sys, os
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/..'))
 from rgbmatrix import RGBMatrix
+from subprocess import call
 
 class SampleBase(argparse.ArgumentParser):
     def __init__(self, *args, **kwargs):
         super(SampleBase, self).__init__(*args, **kwargs)
 
-        # TODO: could this fill RGBMatrix::Options instead ?
         self.add_argument("-r", "--rows", action = "store", help = "Display rows. 16 for 16x32, 32 for 32x32. Default: 32", default = 32, type = int)
         self.add_argument("-P", "--parallel", action = "store", help = "For Plus-models or RPi2: parallel chains. 1..3. Default: 1", default = 1, type = int)
         self.add_argument("-c", "--chain", action = "store", help = "Daisy-chained boards. Default: 2.", default = 2, type = int)
@@ -27,20 +27,18 @@ class SampleBase(argparse.ArgumentParser):
         self.args = vars(self.parse_args())
 
         # TODO: validate values with RGBmatrix::Options::Validate().
-
         self.matrix = RGBMatrix(self.args["rows"], self.args["chain"], self.args["parallel"])
         self.matrix.pwmBits = self.args["pwmbits"]
         self.matrix.brightness = self.args["brightness"]
-
         if self.args["luminance"]:
             self.matrix.luminanceCorrect = False
 
         try:
             # Start loop
-            print("Press CTRL-C to stop sample")
+            print("Press CTRL-C to stop consumer")
             self.Run()
         except KeyboardInterrupt:
             print("Exiting\n")
             sys.exit(0)
 
-        return True
+        #return True

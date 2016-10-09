@@ -21,7 +21,7 @@ def suggestion():
 	return redirect('/')
 
 @app.route('/gasimasinu')
-def turnoff():
+def poweroff():
 	system('sudo poweroff')
 
 @app.route('/text',methods=['POST'])
