@@ -52,15 +52,20 @@ class consumer(SampleBase):
 		chan.basic_consume(callback,queue='theclock',no_ack=True)        	     
 
 #petlja koja provjerava jel neka od lista sadrzi element i sukladno tome ispisuje element neke liste
+		ajde,textNova=0,[]
+		ispis = ["10","9","8","7","6","5","4","3","2","1","0", "2016...pusi...kurac"] 
 		while True:
 			offscreenCanvas.Clear()
 			leng = graphics.DrawText(offscreenCanvas, font, pos, 28, textColor, myText)
 			pos -= 1
+#izabire se novi prikaz
 			if (pos + leng < 0):
 				pos = offscreenCanvas.width
-				if len(text):
+				if len(textNova)>0:
+					myText=textNova.pop(0)
+				elif len(text):
 					textColor=graphics.Color(0,255,0)
-					myText=text[0]
+					myText = text[0]
 					del text[0]
 					sat = 0
 				elif len(uCu):
@@ -77,15 +82,19 @@ class consumer(SampleBase):
 				else:
 					textColor=graphics.Color(255,165,0)
 					myText=time.strftime("%H:%M")
+					if (time.strftime("%H:%M:%S")=="17:59:48"):
+						textNova = ["10","9","8","7","6","5","4","3","2","1","0","2016...pusi...kurac"]
+						continue
 					sat=1
 #hehe
 			if myText=="16:20" or myText=="04:20" or myText=="420":
 				textColor=graphics.Color(randint(0,255),randint(0,255),randint(0,255))
-			elif myText=="21:35":
-				myText="Samo...sloga...ksetovca...spašava"
-				textColor = graphics.Color(255,0,0) 
+			elif myText in ispis:
+				textColor=graphics.Color(randint(0,255),randint(0,255),randint(0,255))
 			offscreenCanvas = self.matrix.SwapOnVSync(offscreenCanvas)
-			if pos==-2 and sat==1:
+			if myText in ispis:
+				time.sleep(0.0085)
+			elif pos==-2 and sat==1:
 				chan.connection.process_data_events(time_limit=3)
 			else:
 				chan.connection.process_data_events(time_limit=0.03)
