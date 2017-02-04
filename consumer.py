@@ -53,7 +53,8 @@ class consumer(SampleBase):
 
 #petlja koja provjerava jel neka od lista sadrzi element i sukladno tome ispisuje element neke liste
 		ajde,textNova=0,[]
-		ispis = ["10","9","8","7","6","5","4","3","2","1","0", "2016...pusi...kurac"] 
+#		ispis = ["10","9","8","7","6","5","4","3","2","1","0", "2016...pusi...kurac"]
+#		potencijalnoVrijeme = ["23:59:47","23:59:48","23:59:50","23:59:49","23:59:51"]
 		while True:
 			offscreenCanvas.Clear()
 			leng = graphics.DrawText(offscreenCanvas, font, pos, 28, textColor, myText)
@@ -61,9 +62,9 @@ class consumer(SampleBase):
 #izabire se novi prikaz
 			if (pos + leng < 0):
 				pos = offscreenCanvas.width
-				if len(textNova)>0:
-					myText=textNova.pop(0)
-				elif len(text):
+#				if len(textNova)>0:
+#					myText=textNova.pop(0)
+				if len(text):
 					textColor=graphics.Color(0,255,0)
 					myText = text[0]
 					del text[0]
@@ -79,22 +80,47 @@ class consumer(SampleBase):
 					self.matrix.brightness = self.args["brightness"]
 					offscreenCanvas = self.matrix.CreateFrameCanvas()
 					myText=time.strftime("%H:%M")
+					sat = 1
 				else:
 					textColor=graphics.Color(255,165,0)
 					myText=time.strftime("%H:%M")
-					if (time.strftime("%H:%M:%S")=="17:59:48"):
-						textNova = ["10","9","8","7","6","5","4","3","2","1","0","2016...pusi...kurac"]
-						continue
-					sat=1
+					sat = 1
+
+#			if (time.strftime("%H:%M:%S") in potencijalnoVrijeme) and len(textNova)==0:
+#				textNova = ["10","9","8","7","6","5","4","3","2","1","0","2016...pusi...kurac"]
+#				continue
 #hehe
-			if myText=="16:20" or myText=="04:20" or myText=="420":
+			if myText=="16:20" or myText=="Kpop" or myText=="420":
 				textColor=graphics.Color(randint(0,255),randint(0,255),randint(0,255))
-			elif myText in ispis:
-				textColor=graphics.Color(randint(0,255),randint(0,255),randint(0,255))
+			elif myText=="12:00":
+				textColor=graphics.Color(255,0,0)
+				myText="bum!"
+			elif myText=="16:00":
+				textColor=graphics.Color(255,255,0)
+				myText="gdje...je...onaj....cvijetak...zuti"
+#			elif myText in ispis:
+#				textColor=graphics.Color(randint(0,255),randint(0,255),randint(0,255))
 			offscreenCanvas = self.matrix.SwapOnVSync(offscreenCanvas)
-			if myText in ispis:
-				time.sleep(0.0085)
-			elif pos==-2 and sat==1:
+#za novu godinu
+#			if myText in ispis:
+#				time.sleep(0.0085)
+
+#za kontinuirano prikazivanje slika
+#			if sat==1 and len(uCu)==0:
+#				if ajde%5 == 0:
+#					ajde+=1
+#					uCu.append('./demo -D1 -t 5 --led-chain=2 chicats.ppm')
+#				elif ajde%5==1:
+#					ajde+=1
+#					uCu.append('./demo -D1 -t 5 --led-chain=2 druga.ppm')
+#				elif ajde%5==3:
+#					ajde+=1
+#					uCu.append('./demo -D1 -t 5 --led-chain=2 prva.ppm')
+#				else:
+#					ajde+=1
+#					uCu.append('./demo -D1 -t 5 --led-chain=2 treca.ppm')
+
+			if pos==-2 and sat==1:
 				chan.connection.process_data_events(time_limit=3)
 			else:
 				chan.connection.process_data_events(time_limit=0.03)
